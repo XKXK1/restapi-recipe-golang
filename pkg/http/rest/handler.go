@@ -18,6 +18,7 @@ func Handler(a adding.Service, l listing.Service, d deleting.Service) http.Handl
 
 	r.HandleFunc("/recipes", getRecipes(l)).Methods("GET")
 	r.HandleFunc("/recipes/{id}", getRecipe(l)).Methods("GET")
+	r.HandleFunc("/recipes/random/{mealType}", getRandomRecipe(l)).Methods("GET")
 	r.HandleFunc("/recipes", addRecipe(a)).Methods("POST")
 	r.HandleFunc("/recipes/{id}", deleteRecipe(d)).Methods("DELETE")
 
@@ -36,7 +37,9 @@ func addRecipe(s adding.Service) func(w http.ResponseWriter, r *http.Request) {
 			fmt.Printf("An error occured while decoding the json: json was %s \n", r.Body)
 		}
 		s.AddRecipe(newRecipe)
-		json.NewEncoder(w).Encode("New Recipe added.")
+		if err := json.NewEncoder(w).Encode("New Recipe added."); err != nil {
+			panic("Couldn't Encode message")
+		}
 
 	}
 }
@@ -46,7 +49,9 @@ func getRecipes(s listing.Service) func(w http.ResponseWriter, r *http.Request) 
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		list := s.GetRecipes()
-		json.NewEncoder(w).Encode(list)
+		if err := json.NewEncoder(w).Encode(list); err != nil {
+			panic("Couldn't Encode message")
+		}
 	}
 }
 
@@ -62,10 +67,31 @@ func getRecipe(s listing.Service) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		recipe := s.GetRecipe(ID)
+		recipe, err := s.GetRecipe(ID)
+		if err == listing.ErrNotFound {
+			http.Error(w, "The recipe you requested does not exist.", http.StatusBadRequest)
+			return
+		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(recipe)
+		if err := json.NewEncoder(w).Encode(recipe); err != nil {
+			panic("Couldn't Encode message")
+		}
+	}
+}
+
+// getRecipes returns a collection of existing recipes
+func getRandomRecipe(s listing.Service) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		//todo errorhandling
+		params := mux.Vars(r)
+
+		recipe := s.GetRandomRecipe(params["mealType"])
+
+		if err := json.NewEncoder(w).Encode(recipe); err != nil {
+			panic("Couldn't Encode message")
+		}
 	}
 }
 
@@ -84,6 +110,9 @@ func deleteRecipe(s deleting.Service) func(w http.ResponseWriter, r *http.Reques
 
 		w.Header().Set("Content-Type", "application/json")
 		outMsg := fmt.Sprintf("Recipe with ID: %d has been deleted", ID)
-		json.NewEncoder(w).Encode(outMsg)
+
+		if err := json.NewEncoder(w).Encode(outMsg); err != nil {
+			panic("Couldn't Encode message")
+		}
 	}
 }

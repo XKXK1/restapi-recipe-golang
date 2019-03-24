@@ -26,7 +26,7 @@ func (m *Storage) AddRecipe(r adding.Recipe) error {
 }
 
 // GetRecipe returns a recipe with the specified ID
-func (m *Storage) GetRecipe(id int) listing.Recipe {
+func (m *Storage) GetRecipe(id int) (listing.Recipe, error) {
 	var recipe listing.Recipe
 
 	for i := range m.recipes {
@@ -38,11 +38,11 @@ func (m *Storage) GetRecipe(id int) listing.Recipe {
 			recipe.Ingredients = m.recipes[i].Ingredients
 			recipe.Preparation = m.recipes[i].Preparation
 
-			return recipe
+			return recipe, nil
 		}
 	}
 
-	return recipe
+	return recipe, listing.ErrNotFound
 }
 
 // GetAllRecipes return all recipes
