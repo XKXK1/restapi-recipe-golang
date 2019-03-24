@@ -49,6 +49,7 @@ func getRecipes(s listing.Service) func(w http.ResponseWriter, r *http.Request) 
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		list := s.GetRecipes()
+
 		if err := json.NewEncoder(w).Encode(list); err != nil {
 			panic("Couldn't Encode message")
 		}
