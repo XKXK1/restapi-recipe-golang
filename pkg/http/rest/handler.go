@@ -87,6 +87,12 @@ func getRandomRecipe(s listing.Service) func(w http.ResponseWriter, r *http.Requ
 		w.Header().Set("Content-Type", "application/json")
 		//todo errorhandling
 		params := mux.Vars(r)
+		mealType := params["mealType"]
+
+		if (mealType != "Breakfast") && (mealType != "Dinner") {
+			http.Error(w, "Parameter must be 'Breakfast' or 'Dinner'", http.StatusBadRequest)
+			return
+		}
 
 		recipe := s.GetRandomRecipe(params["mealType"])
 

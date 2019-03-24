@@ -3,6 +3,7 @@ package memory
 import (
 	"../../adding"
 	"../../listing"
+	"time"
 )
 
 // Storage stores all recipes in a slice
@@ -15,6 +16,7 @@ func (m *Storage) AddRecipe(r adding.Recipe) error {
 
 	newR := Recipe{
 		ID:          len(m.recipes) + 1,
+		Created:     time.Now(),
 		MealType:    r.MealType,
 		Name:        r.Name,
 		Ingredients: r.Ingredients,
@@ -37,6 +39,7 @@ func (m *Storage) GetRecipe(id int) (listing.Recipe, error) {
 			recipe.Name = m.recipes[i].Name
 			recipe.Ingredients = m.recipes[i].Ingredients
 			recipe.Preparation = m.recipes[i].Preparation
+			recipe.Created = m.recipes[i].Created
 
 			return recipe, nil
 		}
@@ -57,6 +60,7 @@ func (m *Storage) GetAllRecipes() []listing.Recipe {
 			Name:        m.recipes[i].Name,
 			Ingredients: m.recipes[i].Ingredients,
 			Preparation: m.recipes[i].Preparation,
+			Created:     m.recipes[i].Created,
 		}
 
 		recipes = append(recipes, recipe)

@@ -1,5 +1,7 @@
 package memory
 
+import "time"
+
 // Recipe defines the properties of a recipe to be listed
 type Recipe struct {
 	ID          int
@@ -7,4 +9,5 @@ type Recipe struct {
 	Name        string
 	Ingredients []string
 	Preparation string
+	Created     time.Time
 }
