@@ -1,16 +1,16 @@
 package adding
 
-
-
 // Service provides recipe adding operations.
 type Service interface {
 	AddRecipe(...Recipe)
+	AddSampleRecipes()
 }
 
 // Repository provides access to recipe repository.
 type Repository interface {
 	// AddRecipe saves a given recipe to the repository.
 	AddRecipe(Recipe) error
+	AddSampleRecipes()
 }
 
 type service struct {
@@ -32,3 +32,6 @@ func (s *service) AddRecipe(r ...Recipe) {
 	}
 }
 
+func (s *service) AddSampleRecipes() {
+	s.rR.AddSampleRecipes()
+}
