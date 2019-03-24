@@ -1,5 +1,4 @@
-# Studiengang Restful API
-Example app for the Microservices wp
+## Example app for the Microservices wp
 
 ## Installation
 
@@ -14,6 +13,7 @@ go build
 
 * `GET` /recipes
 * `GET` /recipes/{id}
+* `GET` /recipes/random/{mealType}
 * `POST` /recipes
 * `DELETE` /recipes/{id}
 
