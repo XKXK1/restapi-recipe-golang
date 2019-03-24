@@ -22,44 +22,54 @@ go build
 create a new recipe
 
 ``` bash
-POST /studiengaenge
+POST /recipes
 
 Request sample
 {
-  "id":"4545454",
-  "name":"CloudWP",
-  "beschreibung": "Foo bar",
-  "kontakt":{"vorname":"Christian",  "nachname":"Bargmann"}
+    "mealtype": "Breakfast",
+    "name": "Pancakes",
+    "Ingredients": [ "150g all purpose flour",
+    				 "150ml of milk"],
+    "preparation": "Add all ingredients and mix. Put in Pan."
 }
 ```
 
-update an existing studiengang
+get a specific  recipe
+
 ``` bash
-PUT /studiengaenge/{id}
+GET /recipes/{id}
 
 Request sample
 {
-  "id":"4545454",
-  "name":"Aktualisiertes CloudWP",
-  "beschreibung": "Foo bar",
-  "kontakt":{"vorname":"Christian",  "nachname":"Bargmann"}
+  "id":"1"
 }
 ```
 
-delete an existing studiengang
+get a random recipe of specific mealType
 
 ``` bash
-DELETE /studiengaenge/{id}
+GET /recipes/random/{mealType}
 
 Request sample
 {
-  "id":"4545454"
+  "mealType":"Breakfast"
+}
+```
+
+delete an existing recipe
+
+``` bash
+DELETE /recipes/{id}
+
+Request sample
+{
+  "id":"1"
 }
 ```
 
 for example using curl
 
 ```bash
-curl -d '{"id":1}' -H 'Content-Type: application/json' -X DELETE http://localhost:8080/studiengaenge/1
+curl -d '{"id":1}' -H 'Content-Type: application/json' -X DELETE http://localhost:8080/recipes/1
 
 ```
