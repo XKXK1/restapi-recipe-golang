@@ -1,5 +1,5 @@
 # Studiengang Restful API
-Example app for the Cloud-WP @ HAW Hamburg
+Example app for the Microservices wp
 
 ## Installation
 
@@ -7,20 +7,19 @@ Example app for the Cloud-WP @ HAW Hamburg
 go get -v 
 
 go build
-./restapi-example
+./cmd/recipe-server/
 ```
 
 ## Route handles & endpoints
 
-* `GET` /studiengaenge
-* `GET` /studiengaegne/{id}
-* `POST` /studiengaenge
-* `PUT` /studiengaegne/{id}
-* `DELETE` /studiengaegne/{id}
+* `GET` /recipes
+* `GET` /recipes/{id}
+* `POST` /recipes
+* `DELETE` /recipes/{id}
 
 ### Examples 
 
-create a new studiengang
+create a new recipe
 
 ``` bash
 POST /studiengaenge
