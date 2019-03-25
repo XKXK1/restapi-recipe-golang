@@ -5,18 +5,18 @@ import (
 	"math/rand"
 )
 
-// ErrNotFound is used when a beer could not be found.
+// ErrNotFound is used when a recipe could not be found.
 var ErrNotFound = errors.New("recipe not found")
 
-// Repository provides access to the beer and review storage.
+// Repository provides access to the recipe and review storage.
 type Repository interface {
-	// GetBeer returns the beer with given ID.
+	// GetRecipe returns the recipe with given ID.
 	GetRecipe(int) (Recipe, error)
-	// GetAllBeers returns all beers saved in storage.
+	// GetAllRecipes returns all recipes saved in storage.
 	GetAllRecipes() []Recipe
 }
 
-// Service provides beer and review listing operations.
+// Service provides recipe and review listing operations.
 type Service interface {
 	GetRecipe(int) (Recipe, error)
 	GetRecipes() []Recipe
@@ -32,12 +32,12 @@ func NewService(r Repository) Service {
 	return &service{r}
 }
 
-// GetBeers returns all beers
+// GetRecipesreturns all recipes
 func (s *service) GetRecipes() []Recipe {
 	return s.r.GetAllRecipes()
 }
 
-// GetBeer returns a beer
+// GetRecipe returns a recipe
 func (s *service) GetRecipe(id int) (Recipe, error) {
 	return s.r.GetRecipe(id)
 }
